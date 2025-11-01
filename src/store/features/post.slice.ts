@@ -1,7 +1,7 @@
 import { postsState } from "@/types/posts.types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import { RootState } from "@/store/store";
 const initialState: postsState = {
   posts: null,
   postDetails: null,
@@ -10,7 +10,7 @@ const initialState: postsState = {
 export const getPosts = createAsyncThunk(
   "posts/getPosts",
   async (_, thunkAPI) => {
-    const state: any = thunkAPI.getState();
+    const state = thunkAPI.getState() as RootState;
     const token = state.userReducer.token;
 
     const options = {
