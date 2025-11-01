@@ -11,8 +11,8 @@ export default function Page({ params }: { params: Promise<{ postId: string }>; 
     const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(getPostDetails(postId));
-    }, []);
-    let { postDetails } = useAppSelector((store) => store.postReducer);
+    }, [dispatch, postId]);
+    const { postDetails } = useAppSelector((store) => store.postReducer);
     return (
         <>
             <Box sx={{ mb: 2 }}>

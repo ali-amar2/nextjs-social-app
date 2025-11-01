@@ -36,8 +36,7 @@ export default function UserForm() {
                     method: "POST",
                     data: values,
                 }
-                let { data } = await axios.request(options)
-                console.log(data);
+                const { data } = await axios.request(options)
                 if (data.message === "success") {
                     toast.success("Email Created Successfully")
                     setTimeout(() => {
