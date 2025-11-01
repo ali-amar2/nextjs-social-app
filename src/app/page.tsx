@@ -8,25 +8,37 @@ import { getPosts } from "@/store/features/post.slice";
 import Grid from "@mui/material/Grid";
 import { useEffect } from "react";
 
-export default function Home() {
-  let { posts } = useAppSelector((store) => store.postReducer);
+export default function Page() {
+  const { posts } = useAppSelector((store) => store.postReducer);
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(getPosts());
-  }, []);
+  }, [dispatch]);
 
   return (
-    <>
-      <ProtectedRoute>
-        <Grid container sx={{ marginBottom: "20px" }}>
-          <Grid size={2}></Grid>
-          <Grid size={8} sx={{ display: "flex", flexDirection: "column", gap: "10px", }}>
-            <PostForm />
-            {posts ? (posts.map((post) => (<PostCard key={post._id} postInfo={post} showAllComments={false} />))) : (<Loading />)}
-          </Grid>
-          <Grid size={2}></Grid>
+    <ProtectedRoute>
+      <Grid container sx={{ marginBottom: "20px" }}>
+        <Grid size={2}></Grid>
+        <Grid
+          size={8}
+          sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
+        >
+          <PostForm />
+          {posts ? (
+            posts.map((post) => (
+              <PostCard
+                key={post._id}
+                postInfo={post}
+                showAllComments={false}
+              />
+            ))
+          ) : (
+            <Loading />
+          )}
         </Grid>
-      </ProtectedRoute>
-    </>
+        <Grid size={2}></Grid>
+      </Grid>
+    </ProtectedRoute>
   );
 }

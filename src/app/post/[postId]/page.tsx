@@ -6,7 +6,7 @@ import { getPostDetails } from "@/store/features/post.slice";
 import { Box } from "@mui/material";
 import { use, useEffect } from "react";
 
-export default function page({ params }: { params: Promise<{ postId: string }>; }) {
+export default function Page({ params }: { params: Promise<{ postId: string }>; }) {
     const { postId } = use(params);
     const dispatch = useAppDispatch();
     useEffect(() => {

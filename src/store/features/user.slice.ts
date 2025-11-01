@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 const initialState: userState = {
   token: typeof window !== "undefined" ? localStorage.getItem("token") : null,
 };
+
 export const login = createAsyncThunk(
   "user/login",
   async (values: { email: string; password: string }) => {
@@ -14,7 +15,8 @@ export const login = createAsyncThunk(
       method: "POST",
       data: values,
     };
-    let { data } = await axios.request(options);
+
+    const { data } = await axios.request(options);
     return data;
   }
 );
@@ -25,19 +27,24 @@ const userSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.token = null;
-      localStorage.removeItem("token");
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("token");
+      }
       toast.success("Logged out successfully");
     },
   },
-  extraReducers: function (builder) {
-    builder.addCase(login.fulfilled, (state, action) => {
-      state.token = action.payload.token;
-      localStorage.setItem("token", action.payload.token);
-      toast.success("Login Successfully");
-    });
-    builder.addCase(login.rejected, () => {
-      toast.error("Incorrect Email or Password");
-    });
+  extraReducers: (builder) => {
+    builder
+      .addCase(login.fulfilled, (state, action) => {
+        state.token = action.payload.token;
+        if (typeof window !== "undefined") {
+          localStorage.setItem("token", action.payload.token);
+        }
+        toast.success("Login Successfully");
+      })
+      .addCase(login.rejected, () => {
+        toast.error("Incorrect Email or Password");
+      });
   },
 });
 
