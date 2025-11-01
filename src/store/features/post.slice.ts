@@ -27,7 +27,7 @@ export const getPosts = createAsyncThunk(
 export const getPostDetails = createAsyncThunk(
   "posts/getPostDetails",
   async (id: string, thunkAPI) => {
-    const state: any = thunkAPI.getState();
+    const state = thunkAPI.getState() as RootState;
     const token = state.userReducer.token;
 
     const options = {
